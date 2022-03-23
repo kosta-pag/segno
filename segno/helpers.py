@@ -234,7 +234,7 @@ def make_mecard(name, reading=None, email=None, phone=None, videophone=None,
 _looks_like_datetime = re.compile(r'^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:(?:-?\d{2}:\d{2})|Z)?)?$').match
 
 
-def make_vcard_data(name, displayname, email=None, phone=None, fax=None,
+def make_vcard_data(name, displayname, email=None, phone=None,cellphone=None, fax=None,
                     videophone=None, memo=None, nickname=None, birthday=None,
                     url=None, pobox=None, street=None, city=None, region=None,
                     zipcode=None, country=None, org=None, lat=None, lng=None,
@@ -252,6 +252,8 @@ def make_vcard_data(name, displayname, email=None, phone=None, fax=None,
     :type email: str, iterable of strings, or None
     :param phone: Phone number. Multiple values are allowed.
     :type phone: str, iterable of strings, or None
+    :param cellphone: Phone number. Multiple values are allowed.
+    :type cellphone: str, iterable of strings, or None
     :param fax: Fax number. Multiple values are allowed.
     :type fax: str, iterable of strings, or None
     :param videophone: Phone number for video calls. Multiple values are allowed.
@@ -308,6 +310,7 @@ def make_vcard_data(name, displayname, email=None, phone=None, fax=None,
         data.append('ORG:{0}'.format(escape(org)))
     data.extend(make_multifield('EMAIL', email))
     data.extend(make_multifield('TEL', phone))
+    data.extend(make_multifield('TEL;TYPE=CELL', cellphone))
     data.extend(make_multifield('TEL;TYPE=FAX', fax))
     data.extend(make_multifield('TEL;TYPE=VIDEO', videophone))
     data.extend(make_multifield('URL', url))
@@ -348,7 +351,7 @@ def make_vcard_data(name, displayname, email=None, phone=None, fax=None,
     return '\r\n'.join(data)
 
 
-def make_vcard(name, displayname, email=None, phone=None, fax=None,
+def make_vcard(name, displayname, email=None, phone=None, cellphone=None, fax=None,
                videophone=None, memo=None, nickname=None, birthday=None,
                url=None, pobox=None, street=None, city=None, region=None,
                zipcode=None, country=None, org=None, lat=None, lng=None,
@@ -367,6 +370,8 @@ def make_vcard(name, displayname, email=None, phone=None, fax=None,
     :type email: str, iterable of strings, or None
     :param phone: Phone number. Multiple values are allowed.
     :type phone: str, iterable of strings, or None
+    :param cellphone: Phone number. Multiple values are allowed.
+    :type cellphone: str, iterable of strings, or None
     :param fax: Fax number. Multiple values are allowed.
     :type fax: str, iterable of strings, or None
     :param videophone: Phone number for video calls. Multiple values are allowed.
@@ -409,7 +414,7 @@ def make_vcard(name, displayname, email=None, phone=None, fax=None,
     :rtype: segno.QRCode
     """
     return segno.make_qr(make_vcard_data(name, displayname, email=email,
-                                         phone=phone, fax=fax,
+                                         phone=phone, cellphone=cellphone, fax=fax,
                                          videophone=videophone, memo=memo,
                                          nickname=nickname, birthday=birthday,
                                          url=url, pobox=pobox, street=street,
