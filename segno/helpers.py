@@ -238,7 +238,8 @@ def make_vcard_data(name, displayname, email=None, phone=None,cellphone=None, fa
                     videophone=None, memo=None, nickname=None, birthday=None,
                     url=None, pobox=None, street=None, city=None, region=None,
                     zipcode=None, country=None, org=None, lat=None, lng=None,
-                    source=None, rev=None, title=None, photo_uri=None):
+                    source=None, rev=None, title=None, photo_uri=None,
+                    cellphone=None, homephone=None, workphone=None):
     """\
     Creates a string encoding the contact information as vCard 3.0.
 
@@ -293,6 +294,12 @@ def make_vcard_data(name, displayname, email=None, phone=None,cellphone=None, fa
     :type title: str, iterable of strings, or None
     :param photo_uri: Photo URI. Multiple values are allowed.
     :type photo_uri: str, iterable of strings, or None
+    :param cellphone: Cell phone number. Multiple values are allowed.
+    :type cellphone: str, iterable of strings, or None
+    :param homephone: Home phone number. Multiple values are allowed.
+    :type homephone: str, iterable of strings, or None
+    :param workphone: Work phone number. Multiple values are allowed.
+    :type workphone: str, iterable of strings, or None
     :rtype: str
     """
     def make_multifield(name, val):
@@ -313,6 +320,9 @@ def make_vcard_data(name, displayname, email=None, phone=None,cellphone=None, fa
     data.extend(make_multifield('TEL;TYPE=CELL', cellphone))
     data.extend(make_multifield('TEL;TYPE=FAX', fax))
     data.extend(make_multifield('TEL;TYPE=VIDEO', videophone))
+    data.extend(make_multifield('TEL;TYPE=CELL', cellphone))
+    data.extend(make_multifield('TEL;TYPE=HOME', homephone))
+    data.extend(make_multifield('TEL;TYPE=WORK', workphone))
     data.extend(make_multifield('URL', url))
     data.extend(make_multifield('TITLE', title))
     data.extend(make_multifield('PHOTO;VALUE=uri', photo_uri))
@@ -355,7 +365,8 @@ def make_vcard(name, displayname, email=None, phone=None, cellphone=None, fax=No
                videophone=None, memo=None, nickname=None, birthday=None,
                url=None, pobox=None, street=None, city=None, region=None,
                zipcode=None, country=None, org=None, lat=None, lng=None,
-               source=None, rev=None, title=None, photo_uri=None):
+               source=None, rev=None, title=None, photo_uri=None,
+               cellphone=None, homephone=None, workphone=None):
     """\
     Creates a QR code which encodes a `vCard <https://en.wikipedia.org/wiki/VCard>`_
     version 3.0.
@@ -411,6 +422,12 @@ def make_vcard(name, displayname, email=None, phone=None, cellphone=None, fax=No
     :type title: str, iterable of strings, or None
     :param photo_uri: Photo URI. Multiple values are allowed.
     :type photo_uri: str, iterable of strings, or None
+    :param cellphone: Cell phone number. Multiple values are allowed.
+    :type cellphone: str, iterable of strings, or None
+    :param homephone: Home phone number. Multiple values are allowed.
+    :type homephone: str, iterable of strings, or None
+    :param workphone: Work phone number. Multiple values are allowed.
+    :type workphone: str, iterable of strings, or None
     :rtype: segno.QRCode
     """
     return segno.make_qr(make_vcard_data(name, displayname, email=email,
@@ -422,7 +439,10 @@ def make_vcard(name, displayname, email=None, phone=None, cellphone=None, fax=No
                                          zipcode=zipcode, country=country,
                                          org=org, lat=lat, lng=lng,
                                          source=source, rev=rev, title=title,
-                                         photo_uri=photo_uri))
+                                         photo_uri=photo_uri,
+                                         cellphone=cellphone,
+                                         homephone=homephone,
+                                         workphone=workphone))
 
 
 def make_geo_data(lat, lng):

@@ -17,7 +17,7 @@ import shutil
 import nox
 
 _PY_VERSIONS = ('2.7', '3.7', '3.8', '3.9', '3.10', 'pypy', 'pypy3')
-_PY_DEFAULT_VERSION = '3.9'
+_PY_DEFAULT_VERSION = '3.10'
 
 nox.options.sessions = ['test-2.7', 'test-{}'.format(_PY_DEFAULT_VERSION), 'test-pypy', 'test-pypy3']
 
@@ -135,7 +135,8 @@ def start_release(session):
     git('checkout', '-b', release_branch, 'master')
     _change_version(session, prev_version, version)
     git('add', 'segno/__init__.py')
-    session.log('Now on branch "{}". Run the tests, run nox -e docs. Update CHANGES'.format(release_branch))
+    session.log('Now on branch "{}". Run the tests, run nox -e docs. Update and add CHANGES'.format(release_branch))
+    session.log('Commit any changes.')
     session.log('When done, call nox -e finish-release -- {}'.format(version))
 
 
